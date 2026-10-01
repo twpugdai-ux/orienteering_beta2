@@ -94,6 +94,7 @@
             <div id="firebase-notice-text" class="flex-1 leading-relaxed"></div>
         </div>
 
+        <!-- TAB 1: Task Map & Checkpoints -->
         <section id="tab-map" class="space-y-6">
             <!-- Hero Header Banner -->
             <div class="bg-gradient-to-r from-rose-500 via-pink-500 to-rose-400 rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden">
@@ -207,6 +208,7 @@
             </div>
         </section>
 
+        <!-- TAB 2: Gallery Showcase -->
         <section id="tab-gallery" class="space-y-6 hidden">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-3xl border border-rose-100 shadow-sm">
                 <div>
@@ -226,15 +228,15 @@
                     <!-- Filter by Checkpoint -->
                     <div class="flex items-center gap-1 bg-rose-50 border border-rose-200 rounded-xl px-2 py-1">
                         <span class="text-xs font-bold text-rose-700 pl-1"><i class="fa-solid fa-filter me-1"></i>篩選:</span>
-                        <select id="gallery-filter" class="bg-transparent text-rose-900 text-xs font-bold outline-none cursor-pointer py-1">
+                        <select id="gallery-filter" onchange="renderGallery()" class="bg-transparent text-rose-900 text-xs font-bold outline-none cursor-pointer py-1">
                             <option value="ALL">全部檢查點</option>
                         </select>
                     </div>
 
                     <!-- Sort By Field -->
                     <div class="flex items-center gap-1 bg-rose-50 border border-rose-200 rounded-xl px-2 py-1">
-                        <span class="text-xs font-bold text-rose-700 pl-1"><i class="fa-solid fa-arrow-down-short-wide me-1"></i>排序依據:</span>
-                        <select id="gallery-sort-field" class="bg-transparent text-rose-900 text-xs font-bold outline-none cursor-pointer py-1">
+                        <span class="text-xs font-bold text-rose-700 pl-1"><i class="fa-solid fa-arrow-down-short-wide me-1"></i>排序:</span>
+                        <select id="gallery-sort-field" onchange="renderGallery()" class="bg-transparent text-rose-900 text-xs font-bold outline-none cursor-pointer py-1">
                             <option value="createdAt" selected>依時間排序</option>
                             <option value="taskId">依檢查點編號</option>
                             <option value="userName">依隊名排序</option>
@@ -249,7 +251,7 @@
 
                     <!-- Search Input -->
                     <div class="relative">
-                        <input type="text" id="gallery-search" placeholder="搜尋隊名 / 任務..." class="px-3 py-1.5 pl-8 bg-rose-50/60 border border-rose-200 text-xs text-slate-800 rounded-xl outline-none focus:ring-2 focus:ring-rose-300 w-36 sm:w-44 font-medium">
+                        <input type="text" id="gallery-search" oninput="renderGallery()" placeholder="搜尋隊名 / 任務..." class="px-3 py-1.5 pl-8 bg-rose-50/60 border border-rose-200 text-xs text-slate-800 rounded-xl outline-none focus:ring-2 focus:ring-rose-300 w-36 sm:w-44 font-medium">
                         <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-xs text-rose-400"></i>
                     </div>
                 </div>
@@ -272,6 +274,7 @@
             </div>
         </section>
 
+        <!-- TAB 3: Leaderboard -->
         <section id="tab-leaderboard" class="space-y-6 hidden">
             <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden">
                 <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -323,12 +326,13 @@
             </div>
         </section>
 
+        <!-- TAB 4: Admin Panel -->
         <section id="tab-admin" class="space-y-6 hidden">
             <div class="bg-slate-900 text-white p-6 rounded-3xl shadow-xl flex flex-wrap items-center justify-between gap-4">
                 <div>
                     <span class="px-2.5 py-0.5 bg-rose-500 text-white rounded-full text-xs font-black">Admin Panel</span>
                     <h2 class="text-xl font-black mt-1">管理者後台控制面板</h2>
-                    <p class="text-xs text-slate-400 mt-0.5">管理點位密碼、第一題照片上傳與縮圖、雙題內容、分數設定與開啟成果牆/排行榜解鎖</p>
+                    <p class="text-xs text-slate-400 mt-0.5">管理關卡點位、解鎖密碼、提示文字、第一題照片選項上傳與縮圖預覽、雙題內容與配分</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="adminLogout()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl transition">
@@ -386,10 +390,10 @@
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <h3 class="font-black text-slate-800 text-base flex items-center gap-2">
-                            <i class="fa-solid fa-file-excel text-emerald-600 text-lg"></i> Excel 雙題庫與雙分數批量管理 (匯出/匯入)
+                            <i class="fa-solid fa-file-excel text-emerald-600 text-lg"></i> Excel 雙題庫與密碼提示批量管理 (匯出/匯入)
                         </h3>
                         <p class="text-xs text-slate-500 mt-1">
-                            匯出 Excel 可編輯關卡資料、第一題與第二題各自獨立分數與題目，編輯後即可快速上傳更新！
+                            匯出 Excel 可編輯關卡資料、解鎖密碼與提示文字、第一題與第二題各自獨立分數與題目，編輯後即可快速上傳更新！
                         </p>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
@@ -418,7 +422,7 @@
             <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-200">
                 <h3 class="text-base font-black text-slate-800 flex items-center gap-2">
                     <i class="fa-solid fa-sliders text-rose-500"></i>
-                    關卡雙題、照片選項上傳(含縮圖顯示)與內容編輯
+                    關卡密碼提示、雙題、照片選項上傳與縮圖預覽編輯
                 </h3>
                 <div class="flex items-center gap-3">
                     <button onclick="promptAddNewTask()" class="px-3 py-1.5 bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold rounded-xl shadow-sm transition flex items-center gap-1">
@@ -431,8 +435,8 @@
             </div>
 
             <!-- Dynamic Admin Tasks List -->
-            <div id="admin-task-list" class="space-y-4">
-                <!-- Rendered by JS -->
+            <div id="admin-task-list" class="space-y-6">
+                <!-- Rendered by JS with photo upload inputs and thumbnail previews -->
             </div>
         </section>
 
@@ -464,7 +468,7 @@
         </div>
     </div>
 
-    <!-- MODAL 1: User Verification Modal (解鎖密碼驗證) -->
+    <!-- MODAL 1: User Verification Modal (解鎖密碼驗證與密碼提示) -->
     <div id="modal-auth" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl border border-rose-100 animate-in fade-in zoom-in duration-200">
             <div class="flex justify-between items-center mb-4">
@@ -475,11 +479,22 @@
             <h3 class="text-xl font-black text-slate-800 mb-1">任務解鎖驗證</h3>
             
             <!-- Active Team Badge -->
-            <div class="bg-rose-50 border border-rose-100 p-3 rounded-2xl flex items-center justify-between text-xs text-rose-800 mb-4">
+            <div class="bg-rose-50 border border-rose-100 p-3 rounded-2xl flex items-center justify-between text-xs text-rose-800 mb-3">
                 <span><i class="fa-solid fa-users me-1.5 text-rose-500"></i>隊名：<strong id="auth-team-display" class="text-sm text-slate-800">--</strong></span>
             </div>
 
-            <p class="text-xs text-slate-500 mb-4">請輸入現場工作人員提供的該關卡按鈕解鎖密碼。</p>
+            <!-- Password Hint Box (Dynamic Displayed if Configured by Admin) -->
+            <div id="auth-password-hint-box" class="bg-amber-50 border border-amber-200/80 p-3.5 rounded-2xl flex items-start gap-2.5 text-xs text-amber-900 mb-4 hidden shadow-inner">
+                <div class="w-7 h-7 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-sm shrink-0">
+                    <i class="fa-solid fa-lightbulb"></i>
+                </div>
+                <div class="space-y-0.5">
+                    <span class="font-bold text-amber-900 block">密碼提示：</span>
+                    <p id="auth-password-hint-text" class="font-medium text-amber-800 leading-relaxed"></p>
+                </div>
+            </div>
+
+            <p class="text-xs text-slate-500 mb-4">請輸入現場檢查點提示或工作人員提供的該關卡按鈕解鎖密碼。</p>
 
             <form onsubmit="handleUserTaskLogin(event)" class="space-y-4">
                 <input type="hidden" id="auth-task-id" value="">
@@ -588,7 +603,7 @@
                     <i class="fa-solid fa-lock"></i>
                 </div>
                 <h3 class="text-lg font-black text-slate-800">管理者登入驗證</h3>
-                <p class="text-xs text-slate-500">請輸入管理者通行密碼 (預設：admin)</p>
+                <p class="text-xs text-slate-500">請輸入管理者通行密碼 (預設：admin888)</p>
             </div>
             <form onsubmit="handleAdminLogin(event)" class="space-y-4">
                 <input type="password" id="input-admin-pass" required placeholder="管理者密碼" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-slate-800 outline-none text-sm font-medium">
@@ -717,7 +732,7 @@
         let submissionsList = [];
         let registeredTeamsMap = {};
         let submittedTaskIds = new Set();
-        let userTaskScoresMap = {}; // Stores user earned scores per task
+        let userTaskScoresMap = {};
         let selectedTaskIdForLogin = null;
         let currentEditingUser = localStorage.getItem('chiayi_girls_day_team') || '';
         let uploadedBase64Image = null;
@@ -844,8 +859,7 @@
                 listenToTeams();
 
                 if (err.code === 'auth/configuration-not-found' || (err.message && err.message.includes('configuration-not-found'))) {
-                    showNoticeBanner("⚠️ <b>Firebase 驗證未開啟：</b>請登入 <a href='https://console.firebase.google.com/' target='_blank' class='underline font-bold text-amber-900'>Firebase Console</a> ➔ 點擊左側 <b>Authentication</b> ➔ <b>Sign-in method</b> ➔ 啟用<b>「匿名 (Anonymous)」</b>登入！");
-                    showToast("請至 Firebase Console 啟用匿名登入", "error", "驗證提示");
+                    showNoticeBanner("⚠️ <b>Firebase 驗證未開啟：</b>請登入 Firebase Console 啟用匿名登入。");
                 }
             }
             updateTeamHeaderUI();
@@ -891,6 +905,8 @@
                         tData.q2Score = (tData.score !== undefined && tData.score !== null) ? (tData.score - tData.q1Score) || 5 : 5;
                     }
                     tData.score = Number(tData.q1Score) + Number(tData.q2Score);
+
+                    tData.passwordHint = tData.passwordHint || tData.password_hint || '';
 
                     if (tData.type !== 'photo') {
                         tData.type = 'quiz';
@@ -1021,7 +1037,7 @@
 
         window.adminLogout = function() {
             isAdminLoggedIn = false;
-            showToast("已登入管理者權限", "info", "已登出");
+            showToast("已登出管理者權限", "info", "已登出");
             switchTab('map');
         };
 
@@ -1125,7 +1141,6 @@
         function calculateUserTotalScore(userName) {
             if (!userName) return 0;
             const cleanUserName = userName.trim().toLowerCase();
-            
             const taskMaxEarnedMap = {};
 
             submissionsList.forEach(sub => {
@@ -1378,12 +1393,26 @@
                 return;
             }
 
+            const task = tasksMap[taskId] || {};
+
             document.getElementById('auth-task-id').value = taskId;
             document.getElementById('auth-modal-badge').innerText = `檢查點按鈕 #${taskId}`;
             document.getElementById('auth-team-display').innerText = currentEditingUser;
             document.getElementById('auth-error-msg').classList.add('hidden');
             document.getElementById('input-task-password').value = '';
             
+            const hintBox = document.getElementById('auth-password-hint-box');
+            const hintText = document.getElementById('auth-password-hint-text');
+            
+            if (hintBox && hintText) {
+                if (task && task.passwordHint && task.passwordHint.trim() !== '') {
+                    hintText.innerText = task.passwordHint.trim();
+                    hintBox.classList.remove('hidden');
+                } else {
+                    hintBox.classList.add('hidden');
+                }
+            }
+
             openModal('modal-auth');
         };
 
@@ -1564,7 +1593,6 @@
             const q1ScoreVal = Number(task.q1Score || 5);
             const q2ScoreVal = Number(task.q2Score || 5);
 
-            // Check Question 1 selection
             if (selectedPhotoQIndex === null || selectedPhotoQIndex === undefined) {
                 showToast("請先點選第一題的照片選項！", "error", "未回答第一題");
                 return;
@@ -1588,7 +1616,6 @@
                 taskType: task.type === 'photo' ? 'photo' : 'quiz'
             };
 
-            // Question 2 Validation
             if (task.type === 'photo') {
                 if (!uploadedBase64Image) {
                     showToast("請在上傳區選取或拍照上傳第二題照片喔！", "error", "未選取打卡照片");
@@ -1611,7 +1638,6 @@
                 submissionData.q2Text = submissionData.selectedOptionText;
             }
 
-            // Calculate Earned Score
             let q1Earned = isQ1Correct ? q1ScoreVal : 0;
             let q2Earned = submissionData.isQ2Correct ? q2ScoreVal : 0;
             let earnedTotal = q1Earned + q2Earned;
@@ -1625,8 +1651,6 @@
                 await setDoc(doc(submissionsCollectionRef, `${taskId}_${currentUserId}_${Date.now()}`), submissionData);
                 
                 closeModal('modal-task-exec');
-
-                // Delayed score feedback (no direct score or option correctness feedback to avoid copying)
                 showToast(`✅ 檢查點 #${taskId} 雙題答案已成功提交！管理者開放成果牆或排行榜後即可查看分數。`, "success", "提交成功");
 
             } catch (err) {
@@ -1728,274 +1752,222 @@
             });
 
             leaderboardList.sort((a, b) => {
-                if (b.totalScore !== a.totalScore) {
-                    return b.totalScore - a.totalScore;
-                }
-                if (a.lastAchievedTime !== b.lastAchievedTime) {
-                    return a.lastAchievedTime - b.lastAchievedTime;
-                }
-                return b.completedCount - a.completedCount;
+                if (b.totalScore !== a.totalScore) return b.totalScore - a.totalScore;
+                if (b.completedCount !== a.completedCount) return b.completedCount - a.completedCount;
+                return a.lastAchievedTime - b.lastAchievedTime;
             });
 
+            tableBody.innerHTML = '';
+
             if (leaderboardList.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="4" class="py-12 text-center text-slate-400 font-bold">目前尚無任何隊伍積分紀錄</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-slate-400 font-medium">尚無隊伍資料或尚未有隊伍完成任務提交。</td></tr>`;
                 return;
             }
 
-            tableBody.innerHTML = leaderboardList.map((entry, index) => {
+            leaderboardList.forEach((row, idx) => {
+                const rank = idx + 1;
                 let rankBadge = '';
-                if (index === 0) {
-                    rankBadge = `<span class="w-7 h-7 rounded-full bg-amber-400 text-white font-black flex items-center justify-center mx-auto shadow-md"><i class="fa-solid fa-crown text-xs"></i></span>`;
-                } else if (index === 1) {
-                    rankBadge = `<span class="w-7 h-7 rounded-full bg-slate-300 text-slate-800 font-black flex items-center justify-center mx-auto shadow-sm">2</span>`;
-                } else if (index === 2) {
-                    rankBadge = `<span class="w-7 h-7 rounded-full bg-amber-700/60 text-white font-black flex items-center justify-center mx-auto shadow-sm">3</span>`;
-                } else {
-                    rankBadge = `<span class="font-bold text-slate-500">${index + 1}</span>`;
-                }
+                if (rank === 1) rankBadge = `<span class="w-7 h-7 rounded-full bg-amber-400 text-amber-950 font-black inline-flex items-center justify-center text-xs shadow-sm"><i class="fa-solid fa-crown text-amber-900"></i></span>`;
+                else if (rank === 2) rankBadge = `<span class="w-7 h-7 rounded-full bg-slate-300 text-slate-900 font-black inline-flex items-center justify-center text-xs shadow-sm">2</span>`;
+                else if (rank === 3) rankBadge = `<span class="w-7 h-7 rounded-full bg-amber-700 text-amber-100 font-black inline-flex items-center justify-center text-xs shadow-sm">3</span>`;
+                else rankBadge = `<span class="text-slate-500 font-bold text-xs">${rank}</span>`;
 
-                return `
-                    <tr class="hover:bg-amber-50/40 transition">
-                        <td class="py-3.5 px-4 text-center">${rankBadge}</td>
-                        <td class="py-3.5 px-4 font-black text-slate-800 text-sm flex items-center gap-2">
-                            <div class="w-7 h-7 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center text-xs font-bold">
-                                ${entry.teamName.substring(0, 1)}
-                            </div>
-                            ${entry.teamName}
-                        </td>
-                        <td class="py-3.5 px-4 text-center font-bold text-slate-600">${entry.completedCount} 個點位</td>
-                        <td class="py-3.5 px-4 text-right pr-6 font-black text-amber-600 text-sm">
-                            <span class="bg-amber-50 border border-amber-200 px-3 py-1 rounded-xl shadow-xs">
-                                <i class="fa-solid fa-star text-amber-500 me-1"></i>${entry.totalScore} 分
-                            </span>
-                        </td>
-                    </tr>
+                const tr = document.createElement('tr');
+                tr.className = row.teamName.trim().toLowerCase() === (currentEditingUser || '').trim().toLowerCase() 
+                    ? "bg-amber-100/60 font-bold" 
+                    : "hover:bg-amber-50/30 transition";
+
+                tr.innerHTML = `
+                    <td class="py-3 px-4 text-center">${rankBadge}</td>
+                    <td class="py-3 px-4 font-black text-slate-800 text-sm">
+                        ${row.teamName}
+                        ${row.teamName.trim().toLowerCase() === (currentEditingUser || '').trim().toLowerCase() ? '<span class="ms-2 px-2 py-0.5 bg-amber-500 text-white rounded-full text-[10px] font-extrabold">您的隊伍</span>' : ''}
+                    </td>
+                    <td class="py-3 px-4 text-center font-extrabold text-slate-700">${row.completedCount} 個關卡</td>
+                    <td class="py-3 px-4 text-right pr-6 font-black text-rose-600 text-base">${row.totalScore} 分</td>
                 `;
-            }).join('');
+                tableBody.appendChild(tr);
+            });
         }
 
         function populateGalleryFilterOptions() {
-            const selectEl = document.getElementById('gallery-filter');
-            if (!selectEl) return;
-            const currentVal = selectEl.value || 'ALL';
-            selectEl.innerHTML = '<option value="ALL">全部檢查點</option>';
+            const filterSelect = document.getElementById('gallery-filter');
+            if (!filterSelect) return;
+
+            const currentVal = filterSelect.value || 'ALL';
+            filterSelect.innerHTML = `<option value="ALL">全部檢查點</option>`;
 
             const allIds = getAllTaskIds();
             allIds.forEach(idStr => {
-                selectEl.innerHTML += `<option value="${idStr}">檢查點 #${idStr}</option>`;
+                const opt = document.createElement('option');
+                opt.value = idStr;
+                opt.innerText = `檢查點 #${idStr} (${tasksMap[idStr]?.title || '未命名'})`;
+                filterSelect.appendChild(opt);
             });
-            selectEl.value = currentVal;
+
+            filterSelect.value = currentVal;
         }
 
         window.toggleSortOrder = function() {
-            gallerySortOrder = (gallerySortOrder === 'asc') ? 'desc' : 'asc';
-            updateSortOrderUI();
+            gallerySortOrder = gallerySortOrder === 'desc' ? 'asc' : 'desc';
+            const icon = document.getElementById('gallery-sort-icon');
+            const text = document.getElementById('gallery-sort-order-text');
+            
+            if (gallerySortOrder === 'desc') {
+                if (icon) icon.className = "fa-solid fa-arrow-down-wide-short";
+                if (text) text.innerText = "最新優先";
+            } else {
+                if (icon) icon.className = "fa-solid fa-arrow-up-short-wide";
+                if (text) text.innerText = "最早優先";
+            }
             renderGallery();
         };
 
-        function updateSortOrderUI() {
-            const btnText = document.getElementById('gallery-sort-order-text');
-            const icon = document.getElementById('gallery-sort-icon');
-            const sortField = document.getElementById('gallery-sort-field')?.value || 'createdAt';
-
-            if (!btnText || !icon) return;
-
-            if (gallerySortOrder === 'asc') {
-                icon.className = "fa-solid fa-arrow-up-short-wide";
-                if (sortField === 'createdAt') btnText.innerText = "由舊到新";
-                else if (sortField === 'taskId') btnText.innerText = "由小到大";
-                else if (sortField === 'userName') btnText.innerText = "筆劃/字母 A-Z";
-                else btnText.innerText = "升冪排序";
-            } else {
-                icon.className = "fa-solid fa-arrow-down-wide-short";
-                if (sortField === 'createdAt') btnText.innerText = "最新優先";
-                else if (sortField === 'taskId') btnText.innerText = "由大到小";
-                else if (sortField === 'userName') btnText.innerText = "筆劃/字母 Z-A";
-                else btnText.innerText = "降冪排序";
-            }
-        }
-
         function renderGallery() {
-            const container = document.getElementById('gallery-cards');
             const lockedView = document.getElementById('gallery-locked-view');
-            const filterVal = document.getElementById('gallery-filter')?.value || 'ALL';
-            const sortField = document.getElementById('gallery-sort-field')?.value || 'createdAt';
-            const searchVal = document.getElementById('gallery-search')?.value.trim().toLowerCase() || '';
+            const cardsContainer = document.getElementById('gallery-cards');
 
-            if (!container || !lockedView) return;
-
-            updateSortOrderUI();
+            if (!lockedView || !cardsContainer) return;
 
             if (!isGalleryPublic && !isAdminLoggedIn) {
                 lockedView.classList.remove('hidden');
-                container.classList.add('hidden');
+                cardsContainer.classList.add('hidden');
                 return;
             }
 
             lockedView.classList.add('hidden');
-            container.classList.remove('hidden');
+            cardsContainer.classList.remove('hidden');
 
-            let filtered = [...submissionsList];
+            const filterVal = document.getElementById('gallery-filter')?.value || 'ALL';
+            const sortField = document.getElementById('gallery-sort-field')?.value || 'createdAt';
+            const searchVal = (document.getElementById('gallery-search')?.value || '').trim().toLowerCase();
 
-            if (filterVal !== 'ALL') {
-                filtered = filtered.filter(s => s.taskId === filterVal);
-            }
-
-            if (searchVal) {
-                filtered = filtered.filter(s => {
-                    const uName = (s.userName || '').toLowerCase();
-                    const tTitle = (s.taskTitle || '').toLowerCase();
-                    const textAns = (s.q2Text || s.selectedOptionText || s.answerText || '').toLowerCase();
-                    const caption = (s.caption || '').toLowerCase();
-                    return uName.includes(searchVal) || tTitle.includes(searchVal) || textAns.includes(searchVal) || caption.includes(searchVal);
-                });
-            }
-
-            const orderMultiplier = (gallerySortOrder === 'asc') ? 1 : -1;
+            let filtered = submissionsList.filter(item => {
+                if (filterVal !== 'ALL' && String(item.taskId) !== String(filterVal)) {
+                    return false;
+                }
+                if (searchVal) {
+                    const uName = (item.userName || '').toLowerCase();
+                    const tTitle = (item.taskTitle || '').toLowerCase();
+                    const tId = String(item.taskId || '');
+                    if (!uName.includes(searchVal) && !tTitle.includes(searchVal) && !tId.includes(searchVal)) {
+                        return false;
+                    }
+                }
+                return true;
+            });
 
             filtered.sort((a, b) => {
-                let primaryDiff = 0;
-
-                if (sortField === 'taskId') {
-                    const numA = parseInt(a.taskId, 10);
-                    const numB = parseInt(b.taskId, 10);
-                    if (!isNaN(numA) && !isNaN(numB)) {
-                        primaryDiff = numA - numB;
-                    } else {
-                        primaryDiff = (a.taskId || '').localeCompare(b.taskId || '', 'zh-TW', { numeric: true });
-                    }
+                let res = 0;
+                if (sortField === 'createdAt') {
+                    res = (b.createdAt || 0) - (a.createdAt || 0);
+                } else if (sortField === 'taskId') {
+                    const numA = parseInt(a.taskId, 10) || 0;
+                    const numB = parseInt(b.taskId, 10) || 0;
+                    res = numA - numB;
                 } else if (sortField === 'userName') {
-                    primaryDiff = (a.userName || '').localeCompare(b.userName || '', 'zh-TW');
-                } else {
-                    primaryDiff = (a.createdAt || 0) - (b.createdAt || 0);
+                    res = (a.userName || '').localeCompare(b.userName || '', 'zh-TW');
                 }
-
-                if (primaryDiff !== 0) {
-                    return primaryDiff * orderMultiplier;
-                }
-
-                const taskNumA = parseInt(a.taskId, 10) || 0;
-                const taskNumB = parseInt(b.taskId, 10) || 0;
-                if (taskNumA !== taskNumB) {
-                    return taskNumA - taskNumB;
-                }
-
-                return (b.createdAt || 0) - (a.createdAt || 0);
+                return gallerySortOrder === 'desc' ? res : -res;
             });
+
+            cardsContainer.innerHTML = '';
 
             if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full py-16 text-center text-slate-400 bg-white rounded-3xl border border-dashed border-rose-200">
-                        <i class="fa-solid fa-folder-open text-5xl text-rose-200 mb-3"></i>
-                        <p class="text-base font-bold text-slate-600">尚無符合的投稿內容</p>
-                        <p class="text-xs text-slate-400 mt-1">請嘗試調整搜尋關鍵字或關卡篩選，完成挑戰後的成果將即時呈現在此！</p>
+                cardsContainer.innerHTML = `
+                    <div class="col-span-full py-16 text-center text-slate-400 font-bold bg-white rounded-3xl border border-dashed border-rose-200">
+                        目前尚無對應的挑戰者提交紀錄。
                     </div>
                 `;
                 return;
             }
 
-            container.innerHTML = filtered.map(sub => {
-                const dateStr = new Date(sub.createdAt).toLocaleString('zh-TW', { hour12: false, month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            filtered.forEach(sub => {
+                const dateStr = sub.createdAt ? new Date(sub.createdAt).toLocaleString('zh-TW', { hour12: false }) : '未記錄';
                 
-                const q1PhotoUrl = sub.q1SelectedPhotoUrl || defaultPhotoOptions[0];
-                const q1Letter = sub.q1SelectedIndex !== undefined ? String.fromCharCode(65 + sub.q1SelectedIndex) : 'A';
-                const isQ1Ok = !!sub.isQ1Correct;
-                const q1ScoreMax = Number(sub.q1Score || 5);
-                const q1Earned = sub.q1Earned !== undefined ? sub.q1Earned : (isQ1Ok ? q1ScoreMax : 0);
+                const q1Earned = sub.q1Earned ?? (sub.isQ1Correct ? (sub.q1Score || 5) : 0);
+                const q2Earned = sub.q2Earned ?? (sub.isQ2Correct ? (sub.q2Score || 5) : 0);
+                const totalEarned = sub.earnedScore ?? (q1Earned + q2Earned);
 
-                const q2ScoreMax = Number(sub.q2Score || 5);
-                const isQ2Ok = !!sub.isQ2Correct;
-                const q2Earned = sub.q2Earned !== undefined ? sub.q2Earned : (isQ2Ok ? q2ScoreMax : 0);
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-3xl border border-rose-100 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition space-y-3 p-5";
 
-                const earnedTotal = sub.earnedScore !== undefined ? sub.earnedScore : (q1Earned + q2Earned);
-                const totalPossible = Number(sub.score || (q1ScoreMax + q2ScoreMax));
+                let q1BadgeHtml = sub.isQ1Correct 
+                    ? `<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-md"><i class="fa-solid fa-check me-0.5"></i>第一題正確 (+${q1Earned}分)</span>`
+                    : `<span class="text-[10px] bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded-md"><i class="fa-solid fa-xmark me-0.5"></i>第一題答錯 (0分)</span>`;
 
-                const deleteBtnHtml = isAdminLoggedIn ? `
-                    <button onclick="deleteSubmission('${sub.id}')" class="text-xs font-bold text-rose-600 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 px-2 py-1 rounded-lg transition" title="刪除此紀錄">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                ` : '';
+                let q2BadgeHtml = sub.isQ2Correct 
+                    ? `<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-md"><i class="fa-solid fa-check me-0.5"></i>第二題正確 (+${q2Earned}分)</span>`
+                    : `<span class="text-[10px] bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded-md"><i class="fa-solid fa-xmark me-0.5"></i>第二題答錯 (0分)</span>`;
 
-                let q2DisplayHtml = '';
-                if (sub.taskType === 'photo' || sub.photoData) {
-                    q2DisplayHtml = `
-                        <div class="space-y-2">
-                            <div class="relative rounded-2xl overflow-hidden bg-slate-100 cursor-pointer shadow-sm group" onclick="openLightbox('${sub.photoData}', '${sub.userName} - ${sub.taskTitle}')">
-                                <img src="${sub.photoData}" alt="User upload" class="w-full h-44 object-cover group-hover:scale-105 transition duration-300">
-                                <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                    <span class="bg-black/60 text-white text-xs px-3 py-1.5 rounded-full font-bold backdrop-blur-sm"><i class="fa-solid fa-magnifying-glass-plus me-1"></i>放大觀看</span>
+                card.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between border-b border-rose-50 pb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-rose-500 text-white font-black text-xs px-2.5 py-1 rounded-xl">#${sub.taskId}</span>
+                                <div>
+                                    <h3 class="font-black text-slate-800 text-sm">${sub.userName || '匿名隊伍'}</h3>
+                                    <p class="text-[10px] text-slate-400">${dateStr}</p>
                                 </div>
                             </div>
-                            ${sub.caption ? `<p class="text-xs text-slate-600 font-medium italic">「${sub.caption}」</p>` : ''}
+                            <span class="text-amber-800 bg-amber-100 border border-amber-200 px-2.5 py-1 rounded-xl text-xs font-black shadow-xs">
+                                總分：${totalEarned} 分
+                            </span>
                         </div>
-                    `;
-                } else {
-                    q2DisplayHtml = `
-                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/80 space-y-1">
-                            <span class="text-[11px] font-bold text-slate-500">第二題回答：</span>
-                            <p class="text-xs font-bold text-slate-800">${sub.q2Text || sub.selectedOptionText || '已作答'}</p>
-                        </div>
-                    `;
-                }
 
-                return `
-                    <div class="bg-white rounded-3xl p-5 border border-rose-100 shadow-sm flex flex-col justify-between space-y-4 hover:border-rose-300 transition">
-                        <div class="space-y-3">
+                        <!-- Q1 Display -->
+                        <div class="bg-rose-50/50 p-3 rounded-2xl border border-rose-100 space-y-2">
                             <div class="flex items-center justify-between">
-                                <span class="px-2.5 py-1 rounded-xl bg-gradient-to-tr from-rose-500 to-pink-500 text-white font-black text-xs shadow-xs">
-                                    #${sub.taskId} ${sub.taskTitle || ''}
-                                </span>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-xs font-black bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-xl">
-                                        <i class="fa-solid fa-star text-amber-500 me-1"></i>得分：${earnedTotal} / ${totalPossible}
-                                    </span>
-                                    ${deleteBtnHtml}
+                                <span class="text-xs font-black text-slate-800"><i class="fa-solid fa-image me-1 text-rose-500"></i>第一題：照片辨識</span>
+                                ${q1BadgeHtml}
+                            </div>
+                            ${sub.q1SelectedPhotoUrl ? `
+                                <div class="relative aspect-video rounded-xl overflow-hidden bg-slate-100 cursor-pointer" onclick="openLightbox('${sub.q1SelectedPhotoUrl}', '${sub.userName} - 檢查點 #${sub.taskId} 第一題選取照片')">
+                                    <img src="${sub.q1SelectedPhotoUrl}" alt="Q1 selection" class="w-full h-full object-cover hover:scale-105 transition">
+                                    <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded-md"><i class="fa-solid fa-magnifying-glass-plus me-1"></i>放大觀看</span>
                                 </div>
-                            </div>
+                            ` : ''}
+                        </div>
 
-                            <div class="flex items-center justify-between text-xs text-slate-500 border-b border-slate-100 pb-2">
-                                <span class="font-bold text-slate-800 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-users text-rose-500"></i> ${sub.userName || '無名隊伍'}
-                                </span>
-                                <span class="text-[11px] text-slate-400">${dateStr}</span>
+                        <!-- Q2 Display -->
+                        <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-black text-slate-800"><i class="fa-solid fa-pen-to-square me-1 text-slate-600"></i>第二題：${sub.taskType === 'photo' ? '現場打卡' : '選擇問答'}</span>
+                                ${q2BadgeHtml}
                             </div>
-
-                            <!-- Q1 Result -->
-                            <div class="bg-rose-50/60 p-3 rounded-2xl border border-rose-100 space-y-2">
-                                <div class="flex items-center justify-between text-xs font-bold">
-                                    <span class="text-rose-800"><i class="fa-solid fa-image me-1"></i>第一題 (選擇選項 ${q1Letter})</span>
-                                    ${isQ1Ok 
-                                        ? `<span class="text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-lg text-[11px]"><i class="fa-solid fa-check me-1"></i>答對 (+${q1Earned}分)</span>`
-                                        : `<span class="text-rose-600 bg-rose-100 px-2 py-0.5 rounded-lg text-[11px]"><i class="fa-solid fa-xmark me-1"></i>答錯 (0分)</span>`
-                                    }
+                            ${sub.photoData ? `
+                                <div class="relative aspect-video rounded-xl overflow-hidden bg-slate-100 cursor-pointer" onclick="openLightbox('${sub.photoData}', '${sub.userName} - ${sub.caption || ''}')">
+                                    <img src="${sub.photoData}" alt="Submission photo" class="w-full h-full object-cover hover:scale-105 transition">
+                                    <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded-md"><i class="fa-solid fa-magnifying-glass-plus me-1"></i>放大觀看</span>
                                 </div>
-                            </div>
-
-                            <!-- Q2 Result -->
-                            <div class="space-y-1">
-                                <div class="flex items-center justify-between text-xs font-bold mb-1">
-                                    <span class="text-slate-700"><i class="fa-solid fa-pen-to-square me-1"></i>第二題作答紀錄</span>
-                                    ${isQ2Ok 
-                                        ? `<span class="text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-lg text-[11px]"><i class="fa-solid fa-check me-1"></i>得分 (+${q2Earned}分)</span>`
-                                        : `<span class="text-rose-600 bg-rose-100 px-2 py-0.5 rounded-lg text-[11px]"><i class="fa-solid fa-xmark me-1"></i>未得分</span>`
-                                    }
-                                </div>
-                                ${q2DisplayHtml}
-                            </div>
+                            ` : ''}
+                            <p class="text-xs text-slate-700 font-medium bg-white p-2 rounded-xl border border-slate-100 break-words">
+                                ${sub.q2Text || sub.selectedOptionText || sub.caption || '[完成提交]'}
+                            </p>
                         </div>
                     </div>
+
+                    ${isAdminLoggedIn ? `
+                        <div class="pt-2 border-t border-slate-100 flex justify-end">
+                            <button onclick="deleteSubmission('${sub.id}')" class="text-rose-600 hover:text-rose-800 text-xs font-bold px-3 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 transition">
+                                <i class="fa-solid fa-trash me-1"></i>刪除此提交
+                            </button>
+                        </div>
+                    ` : ''}
                 `;
-            }).join('');
+
+                cardsContainer.appendChild(card);
+            });
         }
 
-        window.deleteSubmission = function(subId) {
+        window.deleteSubmission = function(submissionDocId) {
             showConfirmModal({
-                title: "確認刪除投稿？",
-                message: "確定要刪除這筆挑戰紀錄嗎？此操作無法復原。",
+                title: "確認刪除此筆提交紀錄？",
+                message: "刪除後分數與照片記錄將從系統移除且不可復原。",
                 onConfirm: async () => {
                     try {
-                        await deleteDoc(doc(submissionsCollectionRef, subId));
-                        showToast("投稿紀錄已成功刪除", "success");
+                        await deleteDoc(doc(submissionsCollectionRef, submissionDocId));
+                        showToast("該筆紀錄已刪除", "success");
                     } catch (err) {
                         showToast("刪除失敗", "error");
                     }
@@ -2003,329 +1975,369 @@
             });
         };
 
-        window.renderAdminTeamsList = function() {
-            const container = document.getElementById('admin-teams-list');
-            if (!container) return;
+        // ==================== ADMIN BACKEND TASK MANAGEMENT WITH PHOTO UPLOAD ====================
 
-            const teamsList = Object.values(registeredTeamsMap);
+        // Helper function: Image Compression for Admin Uploads
+        function compressAdminImage(file, maxWidth = 800, quality = 0.75) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = (err) => reject(err);
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onerror = (err) => reject(err);
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
 
-            if (teamsList.length === 0) {
-                container.innerHTML = `<div class="col-span-full py-6 text-center text-slate-400 font-bold bg-slate-50 rounded-2xl text-xs">目前尚無已註冊隊伍</div>`;
-                return;
+                        if (width > maxWidth) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Handle Admin Uploading Option Image File for Q1
+        window.handleAdminQ1PhotoUpload = async function(taskId, optIdx, event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            try {
+                showToast("圖片上傳處理中...", "info", "上傳照片");
+                const base64Data = await compressAdminImage(file, 600, 0.7);
+
+                // Update text input value
+                const textInput = document.getElementById(`admin-q1-input-${taskId}-${optIdx}`);
+                if (textInput) textInput.value = base64Data;
+
+                // Update thumbnail display
+                const thumbImg = document.getElementById(`admin-q1-thumb-${taskId}-${optIdx}`);
+                if (thumbImg) thumbImg.src = base64Data;
+
+                showToast(`選項 ${String.fromCharCode(65 + optIdx)} 照片上傳與縮圖更新成功！`, "success", "縮圖顯示");
+            } catch (err) {
+                console.error("Admin Q1 Upload Error:", err);
+                showToast("照片處理失敗，請重試", "error");
             }
-
-            container.innerHTML = teamsList.map(team => `
-                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 flex items-center justify-between shadow-xs">
-                    <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-700 font-black flex items-center justify-center text-xs">
-                            ${(team.name || 'T').substring(0, 1)}
-                        </div>
-                        <div>
-                            <h4 class="font-black text-slate-800 text-xs">${team.name || '未設定隊名'}</h4>
-                            <p class="text-[10px] text-slate-400">ID: ${team.userId?.substring(0, 8)}...</p>
-                        </div>
-                    </div>
-                    <button onclick="deleteTeamRegistration('${team.userId}')" class="text-xs text-rose-600 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 p-1.5 rounded-xl transition" title="清空此隊伍註冊">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                </div>
-            `).join('');
         };
 
-        window.deleteTeamRegistration = function(userId) {
-            showConfirmModal({
-                title: "確認刪除隊伍註冊？",
-                message: "確定要移除該隊伍名單嗎？此操作不影響該隊伍過往已提交的紀錄，但會解除隊名登記。",
-                onConfirm: async () => {
-                    try {
-                        await deleteDoc(doc(teamsCollectionRef, userId));
-                        showToast("已成功清空該隊伍註冊", "success");
-                    } catch (err) {
-                        showToast("刪除失敗", "error");
-                    }
-                }
-            });
+        // Update Thumbnail when Url is typed manually
+        window.updateAdminQ1PhotoPreview = function(taskId, optIdx) {
+            const textInput = document.getElementById(`admin-q1-input-${taskId}-${optIdx}`);
+            const thumbImg = document.getElementById(`admin-q1-thumb-${taskId}-${optIdx}`);
+            if (textInput && thumbImg) {
+                thumbImg.src = textInput.value.trim() || defaultPhotoOptions[optIdx] || '';
+            }
         };
 
-        window.renderAdminTasksList = function() {
-            const container = document.getElementById('admin-task-list');
-            if (!container) return;
+        function renderAdminTasksList() {
+            const listEl = document.getElementById('admin-task-list');
+            if (!listEl) return;
+            listEl.innerHTML = '';
 
             const allIds = getAllTaskIds();
-
             if (allIds.length === 0) {
-                container.innerHTML = `<div class="py-12 text-center text-slate-400 font-bold bg-white rounded-3xl border border-dashed border-slate-200 text-xs">目前尚未有任何關卡點位，請點擊右上角新增關卡或匯入 Excel 題庫。</div>`;
+                listEl.innerHTML = `<div class="p-8 text-center text-slate-400 bg-white rounded-3xl border border-dashed border-slate-200 text-xs font-bold">目前尚無關卡資料，可點擊上方按鈕手動新增或一鍵上傳 Excel。</div>`;
                 return;
             }
 
-            container.innerHTML = allIds.map(idStr => {
-                const task = tasksMap[idStr];
-                const photoOptions = (task.photoQOptions && Array.isArray(task.photoQOptions) && task.photoQOptions.length > 0)
-                    ? task.photoQOptions
+            allIds.forEach(idStr => {
+                const task = tasksMap[idStr] || {};
+                const q1Score = task.q1Score ?? 5;
+                const q2Score = task.q2Score ?? 5;
+                const password = task.password || `${idStr}0`;
+                const passwordHint = task.passwordHint || '';
+                const title = task.title || `檢查點 #${idStr}`;
+                const photoQPrompt = task.photoQPrompt || "請觀看下方照片選項，選出此檢查點正確的照片：";
+                const photoQOptions = (task.photoQOptions && Array.isArray(task.photoQOptions) && task.photoQOptions.length > 0)
+                    ? [...task.photoQOptions]
                     : [...defaultPhotoOptions];
-                const correctPhotoIdx = task.photoQCorrect ?? 0;
+                while (photoQOptions.length < 4) {
+                    photoQOptions.push(defaultPhotoOptions[photoQOptions.length] || '');
+                }
+                const photoQCorrect = task.photoQCorrect ?? 0;
+                const taskType = task.type || 'quiz';
+                const description = task.description || '';
+                const options = task.options || ["選項 A", "選項 B", "選項 C", "選項 D"];
+                const correctOption = task.correctOption ?? 0;
 
-                // Render Photo Options with Upload and Thumbnail Preview
-                let photoOptsHtml = photoOptions.map((photoUrl, pIdx) => {
-                    const optionLetter = String.fromCharCode(65 + pIdx);
-                    const isChecked = (pIdx === correctPhotoIdx);
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5 relative";
+                card.id = `admin-task-card-${idStr}`;
 
-                    return `
-                        <div class="bg-white p-3 rounded-2xl border ${isChecked ? 'border-rose-500 ring-2 ring-rose-200' : 'border-slate-200'} space-y-2 flex flex-col justify-between">
+                // Build Q1 Photo Options Editor with Direct File Upload & Live Thumbnails
+                let photoOptsHtml = '';
+                for (let i = 0; i < 4; i++) {
+                    const optLabel = String.fromCharCode(65 + i); // A, B, C, D
+                    const currentImgSrc = photoQOptions[i] || defaultPhotoOptions[i];
+                    const isChecked = (i === photoQCorrect) ? 'checked' : '';
+
+                    photoOptsHtml += `
+                        <div class="bg-rose-50/60 p-3.5 rounded-2xl border border-rose-100 flex flex-col justify-between space-y-2.5">
                             <div class="flex items-center justify-between">
-                                <label class="flex items-center gap-1.5 text-xs font-bold text-slate-800 cursor-pointer">
-                                    <input type="radio" name="photo_correct_${idStr}" value="${pIdx}" ${isChecked ? 'checked' : ''} onchange="updateTaskPhotoCorrect('${idStr}', ${pIdx})" class="w-4 h-4 text-rose-600 focus:ring-rose-400">
-                                    選項 ${optionLetter} ${isChecked ? '<span class="text-[10px] text-rose-600 font-extrabold">(正確照片)</span>' : ''}
+                                <span class="font-extrabold text-xs text-rose-700 flex items-center gap-1">
+                                    <i class="fa-solid fa-image"></i> 選項 ${optLabel}
+                                </span>
+                                <label class="flex items-center gap-1 text-[11px] font-bold text-slate-700 cursor-pointer bg-white px-2 py-0.5 rounded-lg border border-rose-200">
+                                    <input type="radio" name="admin_q1_correct_${idStr}" value="${i}" ${isChecked} class="w-3.5 h-3.5 text-rose-600 focus:ring-rose-400">
+                                    設為正確解答
                                 </label>
                             </div>
 
-                            <!-- Photo Thumbnail Preview -->
-                            <div class="relative aspect-video rounded-xl overflow-hidden bg-slate-100 border border-slate-200 group">
-                                <img id="thumb-${idStr}-${pIdx}" src="${photoUrl}" alt="Photo ${optionLetter}" class="w-full h-full object-cover">
-                                <button type="button" onclick="openLightbox('${photoUrl}', '檢查點 #${idStr} 選項 ${optionLetter}')" class="absolute inset-0 bg-black/30 text-white font-bold text-xs opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-1">
-                                    <i class="fa-solid fa-magnifying-glass"></i> 預覽
-                                </button>
+                            <!-- Live Thumbnail Preview (縮圖顯示) -->
+                            <div class="relative aspect-video rounded-xl overflow-hidden bg-slate-200 border border-slate-200 shadow-xs group">
+                                <img id="admin-q1-thumb-${idStr}-${i}" src="${currentImgSrc}" alt="Option ${optLabel} Thumbnail" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+                                    <button type="button" onclick="openLightbox(document.getElementById('admin-q1-thumb-${idStr}-${i}').src, '選項 ${optLabel} 放大預覽')" class="px-2 py-1 bg-white/90 text-slate-800 rounded-lg text-[10px] font-bold">
+                                        <i class="fa-solid fa-magnifying-glass-plus"></i> 放大
+                                    </button>
+                                </div>
                             </div>
 
-                            <!-- Photo Upload Button & URL Input -->
-                            <div class="space-y-1.5 pt-1">
+                            <!-- Photo Upload or Direct Link Input -->
+                            <div class="space-y-1.5">
                                 <div class="flex items-center gap-1.5">
-                                    <button type="button" onclick="document.getElementById('file-upload-${idStr}-${pIdx}').click()" class="w-full py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1">
-                                        <i class="fa-solid fa-upload text-rose-500"></i> 上傳照片
+                                    <button type="button" onclick="document.getElementById('admin-q1-file-${idStr}-${i}').click()" class="px-2.5 py-1.5 bg-rose-500 hover:bg-rose-600 text-white text-[11px] font-bold rounded-xl transition shadow-xs flex items-center gap-1 shrink-0">
+                                        <i class="fa-solid fa-upload"></i> 上傳照片
                                     </button>
-                                    <input type="file" id="file-upload-${idStr}-${pIdx}" accept="image/*" class="hidden" onchange="uploadAdminQ1Photo('${idStr}', ${pIdx}, event)">
+                                    <input type="file" id="admin-q1-file-${idStr}-${i}" accept="image/*" class="hidden" onchange="handleAdminQ1PhotoUpload('${idStr}', ${i}, event)">
+                                    <input type="text" id="admin-q1-input-${idStr}-${i}" value="${currentImgSrc}" oninput="updateAdminQ1PhotoPreview('${idStr}', ${i})" placeholder="或貼上照片網址 URL" class="w-full px-2.5 py-1.5 text-[11px] border border-slate-200 rounded-xl focus:border-rose-400 outline-none">
                                 </div>
-                                <input type="text" value="${photoUrl.startsWith('data:image') ? '[已上傳本機圖檔]' : photoUrl}" onchange="updateTaskPhotoUrl('${idStr}', ${pIdx}, this.value)" placeholder="照片網址 URL" class="w-full px-2.5 py-1 text-[11px] border border-slate-200 rounded-lg outline-none focus:border-rose-400">
                             </div>
                         </div>
                     `;
-                }).join('');
+                }
 
-                let q2OptionsHtml = '';
-                if (task.type === 'quiz') {
-                    const opts = task.options || ["選項 A", "選項 B", "選項 C", "選項 D"];
-                    q2OptionsHtml = `
-                        <div class="space-y-2 pt-2 border-t border-slate-200/60">
-                            <label class="block text-xs font-bold text-slate-700">第二題（選擇題）選項內容與正確解答：</label>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                ${opts.map((opt, oIdx) => `
+                card.innerHTML = `
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-black text-xs">
+                                #${idStr}
+                            </span>
+                            <h3 class="font-black text-slate-800 text-base">關卡設定及題目配置</h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="saveAdminTask('${idStr}')" class="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-1">
+                                <i class="fa-solid fa-floppy-disk"></i> 儲存關卡設定
+                            </button>
+                            <button onclick="deleteAdminTask('${idStr}')" class="px-3 py-1.5 bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xs rounded-xl transition">
+                                <i class="fa-solid fa-trash"></i> 刪除
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- General Settings -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+                        <div class="md:col-span-2">
+                            <label class="block font-bold text-slate-700 mb-1">關卡名稱 <span class="text-rose-500">*</span></label>
+                            <input type="text" id="admin-title-${idStr}" value="${title}" class="w-full px-3 py-2 border border-slate-200 rounded-xl font-medium focus:border-rose-400 outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">關卡解鎖密碼 <span class="text-rose-500">*</span></label>
+                            <input type="text" id="admin-pass-${idStr}" value="${password}" class="w-full px-3 py-2 border border-slate-200 rounded-xl font-bold text-rose-600 focus:border-rose-400 outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">解鎖密碼提示文字 (選填)</label>
+                            <input type="text" id="admin-passhint-${idStr}" value="${passwordHint}" placeholder="例如: 尋找柱子上的紅貼紙" class="w-full px-3 py-2 border border-slate-200 rounded-xl font-medium focus:border-rose-400 outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-2xl border border-slate-200">
+                        <div>
+                            <label class="block font-bold text-rose-700 mb-1">第一題配分 <span class="text-rose-500">*</span></label>
+                            <input type="number" id="admin-q1score-${idStr}" value="${q1Score}" class="w-full px-3 py-1.5 border border-slate-200 rounded-xl font-bold outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">第二題配分 <span class="text-rose-500">*</span></label>
+                            <input type="number" id="admin-q2score-${idStr}" value="${q2Score}" class="w-full px-3 py-1.5 border border-slate-200 rounded-xl font-bold outline-none">
+                        </div>
+                    </div>
+
+                    <!-- QUESTION 1: PHOTO RECOGNITION SECTION -->
+                    <div class="p-4 rounded-2xl border border-rose-200 bg-rose-50/30 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2.5 py-1 bg-rose-500 text-white font-extrabold text-xs rounded-lg">第一題：照片辨識題</span>
+                            <span class="text-[11px] text-rose-600 font-bold"><i class="fa-solid fa-circle-info me-1"></i>可直接點擊「上傳照片」為每個選項配置圖片並即時預覽縮圖</span>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">題目提示引導語</label>
+                            <input type="text" id="admin-q1prompt-${idStr}" value="${photoQPrompt}" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl font-medium focus:border-rose-400 outline-none">
+                        </div>
+
+                        <!-- 4 Photo Options Grid with Thumbnails -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                            ${photoOptsHtml}
+                        </div>
+                    </div>
+
+                    <!-- QUESTION 2: SECOND QUESTION CONFIG -->
+                    <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2.5 py-1 bg-slate-800 text-white font-extrabold text-xs rounded-lg">第二題：關卡任務內容</span>
+                            <div class="flex items-center gap-3 text-xs">
+                                <label class="font-bold text-slate-700">題型類型：</label>
+                                <select id="admin-type-${idStr}" onchange="toggleAdminQ2TypeDisplay('${idStr}')" class="px-2.5 py-1 bg-white border border-slate-200 font-bold rounded-xl outline-none cursor-pointer">
+                                    <option value="quiz" ${taskType === 'quiz' ? 'selected' : ''}>選擇題</option>
+                                    <option value="photo" ${taskType === 'photo' ? 'selected' : ''}>照片打卡題</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">第二題問題說明 / 引導文字</label>
+                            <textarea id="admin-desc-${idStr}" rows="2" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl font-medium focus:border-rose-400 outline-none">${description}</textarea>
+                        </div>
+
+                        <!-- Quiz Options Editor (If taskType === quiz) -->
+                        <div id="admin-q2-quiz-box-${idStr}" class="${taskType === 'quiz' ? '' : 'hidden'} space-y-3 pt-1 border-t border-slate-200">
+                            <span class="text-xs font-extrabold text-slate-700">選擇題選項設定：</span>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                ${options.map((optVal, oIdx) => `
                                     <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-200">
-                                        <input type="radio" name="correct_opt_${idStr}" value="${oIdx}" ${oIdx === (task.correctOption ?? 0) ? 'checked' : ''} onchange="updateTaskCorrectOpt('${idStr}', ${oIdx})" class="w-4 h-4 text-rose-600">
-                                        <span class="text-xs font-bold text-slate-500 w-5">${String.fromCharCode(65 + oIdx)}.</span>
-                                        <input type="text" value="${opt}" onchange="updateTaskOptionText('${idStr}', ${oIdx}, this.value)" class="flex-1 px-2 py-1 text-xs border border-slate-200 rounded-lg outline-none focus:border-rose-400">
+                                        <input type="radio" name="admin_q2_correct_${idStr}" value="${oIdx}" ${oIdx === correctOption ? 'checked' : ''} class="w-3.5 h-3.5 text-slate-800 focus:ring-slate-400 shrink-0">
+                                        <span class="font-bold text-slate-600 shrink-0">選項 ${oIdx + 1}:</span>
+                                        <input type="text" id="admin-q2-opt-${idStr}-${oIdx}" value="${optVal}" class="w-full px-2 py-1 text-xs border border-slate-200 rounded-lg outline-none">
                                     </div>
                                 `).join('')}
                             </div>
                         </div>
-                    `;
-                }
-
-                return `
-                    <div class="bg-white rounded-3xl p-5 border border-rose-100 shadow-sm space-y-4">
-                        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
-                            <div class="flex items-center gap-2">
-                                <span class="px-3 py-1 bg-slate-900 text-white font-black text-xs rounded-xl">#${idStr}</span>
-                                <input type="text" value="${task.title || ''}" onchange="updateTaskField('${idStr}', 'title', this.value)" placeholder="關卡標題" class="font-black text-slate-800 text-sm px-3 py-1 border border-slate-200 rounded-xl focus:border-rose-500 outline-none w-48 sm:w-64">
-                            </div>
-                            <div class="flex items-center gap-3 flex-wrap">
-                                <div class="flex items-center gap-1.5 bg-rose-50 border border-rose-200 px-3 py-1 rounded-xl">
-                                    <span class="text-xs font-bold text-rose-700">按鈕密碼:</span>
-                                    <input type="text" value="${task.password || `${idStr}0`}" onchange="updateTaskField('${idStr}', 'password', this.value)" class="w-20 px-2 py-0.5 text-xs font-bold border border-rose-200 rounded-lg text-slate-800 outline-none">
-                                </div>
-                                <div class="flex items-center gap-1.5 bg-amber-50 border border-amber-200 px-3 py-1 rounded-xl">
-                                    <span class="text-xs font-bold text-amber-800">Q1配分:</span>
-                                    <input type="number" value="${task.q1Score || 5}" onchange="updateTaskField('${idStr}', 'q1Score', Number(this.value))" class="w-14 px-2 py-0.5 text-xs font-bold border border-amber-200 rounded-lg text-slate-800 outline-none">
-                                    <span class="text-xs font-bold text-amber-800 ml-1">Q2配分:</span>
-                                    <input type="number" value="${task.q2Score || 5}" onchange="updateTaskField('${idStr}', 'q2Score', Number(this.value))" class="w-14 px-2 py-0.5 text-xs font-bold border border-amber-200 rounded-lg text-slate-800 outline-none">
-                                </div>
-                                <button onclick="deleteTaskItem('${idStr}')" class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold rounded-xl transition">
-                                    <i class="fa-solid fa-trash-can"></i> 刪除關卡
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Question 1 Settings (Photo Recognition Options Upload & Thumbnails) -->
-                        <div class="bg-rose-50/50 p-4 rounded-2xl border border-rose-200/80 space-y-3">
-                            <div class="flex items-center justify-between">
-                                <h4 class="text-xs font-black text-rose-900 flex items-center gap-2">
-                                    <span class="bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-md">第一題</span>
-                                    【照片辨識題】照片選項上傳與縮圖管理
-                                </h4>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">第一題題目提示：</label>
-                                <input type="text" value="${task.photoQPrompt || ''}" onchange="updateTaskField('${idStr}', 'photoQPrompt', this.value)" placeholder="請觀看照片挑選出正確選項..." class="w-full px-3 py-1.5 border border-slate-200 rounded-xl text-xs outline-none focus:border-rose-400">
-                            </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                                ${photoOptsHtml}
-                            </div>
-                        </div>
-
-                        <!-- Question 2 Settings -->
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                            <div class="flex items-center justify-between">
-                                <h4 class="text-xs font-black text-slate-800 flex items-center gap-2">
-                                    <span class="bg-slate-800 text-white text-[10px] px-2 py-0.5 rounded-md">第二題</span>
-                                    【現場問答或拍照打卡】
-                                </h4>
-                                <div class="flex items-center gap-2">
-                                    <label class="text-xs font-bold text-slate-600">題型選擇：</label>
-                                    <select onchange="updateTaskField('${idStr}', 'type', this.value)" class="bg-white border border-slate-200 text-xs font-bold px-2.5 py-1 rounded-xl outline-none">
-                                        <option value="quiz" ${task.type === 'quiz' ? 'selected' : ''}>選擇題</option>
-                                        <option value="photo" ${task.type === 'photo' ? 'selected' : ''}>現場拍照打卡題</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">第二題說明 / 閱讀題目：</label>
-                                <textarea onchange="updateTaskField('${idStr}', 'description', this.value)" rows="2" class="w-full p-2.5 border border-slate-200 rounded-xl text-xs outline-none focus:border-rose-400 font-medium">${task.description || ''}</textarea>
-                            </div>
-
-                            ${q2OptionsHtml}
-                        </div>
                     </div>
                 `;
-            }).join('');
-        };
 
-        window.uploadAdminQ1Photo = function(taskId, optionIdx, event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 600;
-                    let width = img.width;
-                    let height = img.height;
-
-                    if (width > MAX_WIDTH) {
-                        height = Math.round((height * MAX_WIDTH) / width);
-                        width = MAX_WIDTH;
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
-
-                    if (tasksMap[taskId]) {
-                        if (!tasksMap[taskId].photoQOptions || !Array.isArray(tasksMap[taskId].photoQOptions)) {
-                            tasksMap[taskId].photoQOptions = [...defaultPhotoOptions];
-                        }
-                        tasksMap[taskId].photoQOptions[optionIdx] = compressedBase64;
-                        saveTaskToFirestore(taskId);
-                        showToast(`已成功上傳選項 ${String.fromCharCode(65 + optionIdx)} 照片並更新縮圖！`, "success", "照片更新");
-                    }
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        };
-
-        window.updateTaskPhotoCorrect = function(taskId, pIdx) {
-            if (tasksMap[taskId]) {
-                tasksMap[taskId].photoQCorrect = Number(pIdx);
-                saveTaskToFirestore(taskId);
-            }
-        };
-
-        window.updateTaskPhotoUrl = function(taskId, pIdx, url) {
-            if (tasksMap[taskId]) {
-                if (!tasksMap[taskId].photoQOptions) tasksMap[taskId].photoQOptions = [...defaultPhotoOptions];
-                tasksMap[taskId].photoQOptions[pIdx] = url.trim();
-                saveTaskToFirestore(taskId);
-            }
-        };
-
-        window.updateTaskCorrectOpt = function(taskId, oIdx) {
-            if (tasksMap[taskId]) {
-                tasksMap[taskId].correctOption = Number(oIdx);
-                saveTaskToFirestore(taskId);
-            }
-        };
-
-        window.updateTaskOptionText = function(taskId, oIdx, val) {
-            if (tasksMap[taskId]) {
-                if (!tasksMap[taskId].options) tasksMap[taskId].options = ["選項 A", "選項 B", "選項 C", "選項 D"];
-                tasksMap[taskId].options[oIdx] = val;
-                saveTaskToFirestore(taskId);
-            }
-        };
-
-        window.updateTaskField = function(taskId, field, val) {
-            if (tasksMap[taskId]) {
-                tasksMap[taskId][field] = val;
-                if (field === 'q1Score' || field === 'q2Score') {
-                    const q1 = Number(tasksMap[taskId].q1Score || 5);
-                    const q2 = Number(tasksMap[taskId].q2Score || 5);
-                    tasksMap[taskId].score = q1 + q2;
-                }
-                saveTaskToFirestore(taskId);
-            }
-        };
-
-        async function saveTaskToFirestore(taskId) {
-            if (!tasksMap[taskId]) return;
-            try {
-                await setDoc(doc(tasksCollectionRef, taskId), tasksMap[taskId], { merge: true });
-            } catch (err) {
-                console.error("Save task error:", err);
-                showToast("關卡資料儲存失敗", "error");
-            }
+                listEl.appendChild(card);
+            });
         }
 
-        window.promptAddNewTask = function() {
-            const newId = prompt("請輸入新關卡編號 (例如: 10):");
-            if (!newId) return;
-            const cleanId = newId.trim();
-            if (!cleanId) return;
+        window.toggleAdminQ2TypeDisplay = function(taskId) {
+            const selectEl = document.getElementById(`admin-type-${taskId}`);
+            const quizBox = document.getElementById(`admin-q2-quiz-box-${taskId}`);
+            if (selectEl && quizBox) {
+                if (selectEl.value === 'quiz') {
+                    quizBox.classList.remove('hidden');
+                } else {
+                    quizBox.classList.add('hidden');
+                }
+            }
+        };
 
+        window.saveAdminTask = async function(idStr) {
+            try {
+                const title = document.getElementById(`admin-title-${idStr}`)?.value.trim() || `${idStr}號任務`;
+                const password = document.getElementById(`admin-pass-${idStr}`)?.value.trim() || `${idStr}0`;
+                const passwordHint = document.getElementById(`admin-passhint-${idStr}`)?.value.trim() || '';
+                const q1Score = parseInt(document.getElementById(`admin-q1score-${idStr}`)?.value, 10) || 5;
+                const q2Score = parseInt(document.getElementById(`admin-q2score-${idStr}`)?.value, 10) || 5;
+                
+                // Collect Q1 Photo Options & Correct Choice
+                const photoQPrompt = document.getElementById(`admin-q1prompt-${idStr}`)?.value.trim() || "請觀看下方照片選項，選出此檢查點正確的照片：";
+                const photoQOptions = [];
+                for (let i = 0; i < 4; i++) {
+                    const optUrl = document.getElementById(`admin-q1-input-${idStr}-${i}`)?.value.trim() || defaultPhotoOptions[i];
+                    photoQOptions.push(optUrl);
+                }
+                const photoQCorrectRadio = document.querySelector(`input[name="admin_q1_correct_${idStr}"]:checked`);
+                const photoQCorrect = photoQCorrectRadio ? parseInt(photoQCorrectRadio.value, 10) : 0;
+
+                // Collect Q2 Settings
+                const type = document.getElementById(`admin-type-${idStr}`)?.value || 'quiz';
+                const description = document.getElementById(`admin-desc-${idStr}`)?.value.trim() || '';
+
+                const taskUpdateData = {
+                    title,
+                    password,
+                    passwordHint,
+                    q1Score,
+                    q2Score,
+                    score: q1Score + q2Score,
+                    photoQPrompt,
+                    photoQOptions,
+                    photoQCorrect,
+                    type,
+                    description,
+                    updatedAt: Date.now()
+                };
+
+                if (type === 'quiz') {
+                    const options = [];
+                    for (let oIdx = 0; oIdx < 4; oIdx++) {
+                        const optVal = document.getElementById(`admin-q2-opt-${idStr}-${oIdx}`)?.value.trim() || `選項 ${oIdx + 1}`;
+                        options.push(optVal);
+                    }
+                    const correctRadio = document.querySelector(`input[name="admin_q2_correct_${idStr}"]:checked`);
+                    const correctOption = correctRadio ? parseInt(correctRadio.value, 10) : 0;
+
+                    taskUpdateData.options = options;
+                    taskUpdateData.correctOption = correctOption;
+                }
+
+                await setDoc(doc(tasksCollectionRef, idStr), taskUpdateData, { merge: true });
+                showToast(`關卡 #${idStr} 設定與照片選項已儲存！`, "success", "儲存成功");
+
+            } catch (err) {
+                console.error("Save Task Error:", err);
+                showToast("儲存關卡失敗", "error");
+            }
+        };
+
+        window.deleteAdminTask = function(idStr) {
+            showConfirmModal({
+                title: `確認刪除關卡 #${idStr}？`,
+                message: "此操作將會從資料庫徹底刪除該點位題目設定。",
+                onConfirm: async () => {
+                    try {
+                        await deleteDoc(doc(tasksCollectionRef, idStr));
+                        showToast(`關卡 #${idStr} 已刪除`, "success");
+                    } catch (e) {
+                        showToast("刪除失敗", "error");
+                    }
+                }
+            });
+        };
+
+        window.promptAddNewTask = async function() {
+            const newId = prompt("請輸入新增的關卡點位編號（如：31）：");
+            if (!newId) return;
+
+            const cleanId = newId.trim();
             if (tasksMap[cleanId]) {
                 showToast(`關卡 #${cleanId} 已存在！`, "error");
                 return;
             }
 
             const newTaskData = {
-                title: `關卡 #${cleanId}`,
+                title: `${cleanId}號關卡點位`,
                 password: `${cleanId}0`,
+                passwordHint: '',
                 q1Score: 5,
                 q2Score: 5,
                 score: 10,
-                type: 'quiz',
-                photoQPrompt: "請觀看下方照片選項，挑選出此檢查點現場的正確照片：",
+                photoQPrompt: "請觀看下方照片選項，挑選出此檢查點正確的照片：",
                 photoQOptions: [...defaultPhotoOptions],
                 photoQCorrect: 0,
-                description: "請回答關卡題目：",
+                type: 'quiz',
+                description: '請閱讀說明並選出正確答案。',
                 options: ["選項 A", "選項 B", "選項 C", "選項 D"],
-                correctOption: 0
+                correctOption: 0,
+                createdAt: Date.now()
             };
 
-            setDoc(doc(tasksCollectionRef, cleanId), newTaskData).then(() => {
-                showToast(`已新增關卡 #${cleanId}`, "success");
-            }).catch(err => {
+            try {
+                await setDoc(doc(tasksCollectionRef, cleanId), newTaskData);
+                showToast(`已成功新增關卡 #${cleanId}`, "success");
+            } catch (err) {
                 showToast("新增關卡失敗", "error");
-            });
-        };
-
-        window.deleteTaskItem = function(taskId) {
-            showConfirmModal({
-                title: `確認刪除關卡 #${taskId}？`,
-                message: `確定要移除檢查點 #${taskId} 嗎？此操作無法復原。`,
-                onConfirm: async () => {
-                    try {
-                        await deleteDoc(doc(tasksCollectionRef, taskId));
-                        showToast(`已成功刪除關卡 #${taskId}`, "success");
-                    } catch (err) {
-                        showToast("刪除關卡失敗", "error");
-                    }
-                }
-            });
+            }
         };
 
         window.openBatchDeleteModal = function() {
@@ -2334,97 +2346,137 @@
 
         window.handleBatchDeleteSubmit = function(e) {
             e.preventDefault();
-            const start = parseInt(document.getElementById('input-batch-start').value, 10);
-            const end = parseInt(document.getElementById('input-batch-end').value, 10);
+            const startNum = parseInt(document.getElementById('input-batch-start').value, 10);
+            const endNum = parseInt(document.getElementById('input-batch-end').value, 10);
 
-            if (isNaN(start) || isNaN(end) || start > end) {
-                showToast("請輸入正確的起始與結束關卡編號範圍！", "error");
+            if (isNaN(startNum) || isNaN(endNum) || startNum > endNum) {
+                showToast("請輸入有效的關卡編號範圍！", "error");
                 return;
             }
 
             closeModal('modal-batch-delete');
 
             showConfirmModal({
-                title: `確認批次刪除關卡 #${start} 至 #${end}？`,
-                message: `即將永久刪除此範圍內的所有題目關卡，此動作無法復原！`,
+                title: `確認批次刪除編號 ${startNum} 到 ${endNum} 的關卡？`,
+                message: `此動作將刪除該範圍內所有已存在的關卡題目！`,
                 onConfirm: async () => {
                     let count = 0;
-                    for (let i = start; i <= end; i++) {
+                    for (let i = startNum; i <= endNum; i++) {
                         const idStr = String(i);
                         if (tasksMap[idStr]) {
-                            try {
-                                await deleteDoc(doc(tasksCollectionRef, idStr));
-                                count++;
-                            } catch (e) {
-                                console.error(`Batch delete item ${idStr} failed:`, e);
-                            }
+                            await deleteDoc(doc(tasksCollectionRef, idStr));
+                            count++;
                         }
                     }
-                    showToast(`批次刪除完成，共刪除 ${count} 個關卡！`, "success");
+                    showToast(`已成功批次刪除 ${count} 個關卡！`, "success");
                 }
             });
         };
 
-        // Excel Download & Batch Upload
+        // Admin Teams Management
+        function renderAdminTeamsList() {
+            const teamsListEl = document.getElementById('admin-teams-list');
+            if (!teamsListEl) return;
+            teamsListEl.innerHTML = '';
+
+            const teamEntries = Object.entries(registeredTeamsMap);
+            if (teamEntries.length === 0) {
+                teamsListEl.innerHTML = `<div class="col-span-full text-center text-xs text-slate-400 py-4 font-bold">尚無註冊隊伍</div>`;
+                return;
+            }
+
+            teamEntries.forEach(([teamUid, teamData]) => {
+                const teamCard = document.createElement('div');
+                teamCard.className = "bg-white p-3.5 rounded-2xl border border-rose-100 flex items-center justify-between shadow-xs";
+                teamCard.innerHTML = `
+                    <div class="flex items-center gap-2 overflow-hidden">
+                        <span class="w-7 h-7 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-xs shrink-0"><i class="fa-solid fa-users"></i></span>
+                        <span class="font-extrabold text-slate-800 text-xs truncate">${teamData.name || '未命名'}</span>
+                    </div>
+                    <button onclick="deleteRegisteredTeam('${teamUid}', '${teamData.name || ''}')" class="text-rose-500 hover:text-rose-700 text-xs font-bold p-1">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                `;
+                teamsListEl.appendChild(teamCard);
+            });
+        }
+
+        window.deleteRegisteredTeam = function(teamUid, teamName) {
+            showConfirmModal({
+                title: `確認刪除隊伍「${teamName}」？`,
+                message: "刪除後該隊伍名稱將釋出，供其他參賽者使用。",
+                onConfirm: async () => {
+                    try {
+                        await deleteDoc(doc(teamsCollectionRef, teamUid));
+                        showToast(`隊伍「${teamName}」已刪除`, "success");
+                    } catch (e) {
+                        showToast("刪除隊伍失敗", "error");
+                    }
+                }
+            });
+        };
+
+        // Excel Export / Import Handler
         window.downloadExcelTemplate = function() {
             const allIds = getAllTaskIds();
-            let rows = [];
+            let dataRows = [];
 
             if (allIds.length > 0) {
-                rows = allIds.map(idStr => {
+                dataRows = allIds.map(idStr => {
                     const t = tasksMap[idStr];
-                    const opts = t.options || ["A", "B", "C", "D"];
-                    const pOpts = t.photoQOptions || defaultPhotoOptions;
+                    const photoOpts = t.photoQOptions || [];
                     return {
                         "關卡編號": idStr,
-                        "關卡標題": t.title || `關卡 #${idStr}`,
+                        "關卡名稱": t.title || `${idStr}號任務`,
                         "解鎖密碼": t.password || `${idStr}0`,
+                        "密碼提示文字": t.passwordHint || '',
                         "第一題配分": t.q1Score ?? 5,
                         "第二題配分": t.q2Score ?? 5,
-                        "第一題提示語": t.photoQPrompt || "請選出現場對應照片：",
-                        "第一題照片A": pOpts[0] || "",
-                        "第一題照片B": pOpts[1] || "",
-                        "第一題照片C": pOpts[2] || "",
-                        "第一題照片D": pOpts[3] || "",
-                        "第一題正確照片字母(A/B/C/D)": String.fromCharCode(65 + (t.photoQCorrect ?? 0)),
-                        "第二題類型(quiz/photo)": t.type || "quiz",
-                        "第二題說明": t.description || "",
-                        "第二題選項A": opts[0] || "",
-                        "第二題選項B": opts[1] || "",
-                        "第二題選項C": opts[2] || "",
-                        "第二題選項D": opts[3] || "",
-                        "第二題正確選項字母(A/B/C/D)": String.fromCharCode(65 + (t.correctOption ?? 0))
+                        "第一題照片提示引導語": t.photoQPrompt || '',
+                        "第一題選項A圖片URL": photoOpts[0] || '',
+                        "第一題選項B圖片URL": photoOpts[1] || '',
+                        "第一題選項C圖片URL": photoOpts[2] || '',
+                        "第一題選項D圖片URL": photoOpts[3] || '',
+                        "第一題正確選項(A/B/C/D)": String.fromCharCode(65 + (t.photoQCorrect ?? 0)),
+                        "第二題類型(quiz/photo)": t.type || 'quiz',
+                        "第二題說明": t.description || '',
+                        "第二題選項A": t.options?.[0] || '',
+                        "第二題選項B": t.options?.[1] || '',
+                        "第二題選項C": t.options?.[2] || '',
+                        "第二題選項D": t.options?.[3] || '',
+                        "第二題正確解答(1-4)": (t.correctOption ?? 0) + 1
                     };
                 });
             } else {
-                rows = [
+                dataRows = [
                     {
                         "關卡編號": "1",
-                        "關卡標題": "嘉義火車站歷史",
+                        "關卡名稱": "嘉義市立美術館",
                         "解鎖密碼": "10",
+                        "密碼提示文字": "尋找綠色門牌",
                         "第一題配分": 5,
                         "第二題配分": 5,
-                        "第一題提示語": "請選出嘉義火車站現場的照片：",
-                        "第一題照片A": defaultPhotoOptions[0],
-                        "第一題照片B": defaultPhotoOptions[1],
-                        "第一題照片C": defaultPhotoOptions[2],
-                        "第一題照片D": defaultPhotoOptions[3],
-                        "第一題正確照片字母(A/B/C/D)": "A",
+                        "第一題照片提示引導語": "請觀看下方照片選項，選出美館入口照片：",
+                        "第一題選項A圖片URL": defaultPhotoOptions[0],
+                        "第一題選項B圖片URL": defaultPhotoOptions[1],
+                        "第一題選項C圖片URL": defaultPhotoOptions[2],
+                        "第一題選項D圖片URL": defaultPhotoOptions[3],
+                        "第一題正確選項(A/B/C/D)": "A",
                         "第二題類型(quiz/photo)": "quiz",
-                        "第二題說明": "請問嘉義火車站建造於西元哪一年？",
-                        "第二題選項A": "1902年",
-                        "第二題選項B": "1933年",
-                        "第二題選項C": "1945年",
-                        "第二題選項D": "1988年",
-                        "第二題正確選項字母(A/B/C/D)": "B"
+                        "第二題說明": "美館前身為哪一個機關的古蹟建物？",
+                        "第二題選項A": "專賣局嘉義支局",
+                        "第二題選項B": "嘉義廳舍",
+                        "第二題選項C": "嘉義火車站倉庫",
+                        "第二題選項D": "嘉義林管處",
+                        "第二題正確解答(1-4)": 1
                     }
                 ];
             }
 
-            const worksheet = XLSX.utils.json_to_sheet(rows);
+            const worksheet = XLSX.utils.json_to_sheet(dataRows);
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "關卡題庫資料");
-            XLSX.writeFile(workbook, "諸羅定向趣_雙題題庫資料.xlsx");
+            XLSX.writeFile(workbook, "諸羅定向趣_雙題庫匯出資料.xlsx");
         };
 
         window.handleBatchFileUpload = function(e) {
@@ -2432,80 +2484,80 @@
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = function(event) {
+            reader.onload = async function(evt) {
                 try {
-                    const data = new Uint8Array(event.target.result);
+                    const data = new Uint8Array(evt.target.result);
                     const workbook = XLSX.read(data, { type: 'array' });
-                    const firstSheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[firstSheetName];
-                    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                    const sheetName = workbook.SheetNames[0];
+                    const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
-                    if (!jsonData || jsonData.length === 0) {
-                        showToast("上傳的 Excel 檔案內無資料！", "error");
+                    if (rows.length === 0) {
+                        showToast("Excel 檔案內容為空！", "error");
                         return;
                     }
 
-                    let updatePromises = [];
+                    showToast(`正在讀取並更新 ${rows.length} 筆關卡資料...`, "info");
 
-                    jsonData.forEach(row => {
-                        const idStr = String(row["關卡編號"] || "").trim();
-                        if (!idStr) return;
+                    for (const row of rows) {
+                        const idStr = String(row["關卡編號"] || row["id"] || row["關卡ID"]).trim();
+                        if (!idStr) continue;
 
-                        const q1Score = Number(row["第一題配分"]) || 5;
-                        const q2Score = Number(row["第二題配分"]) || 5;
+                        const q1Score = parseInt(row["第一題配分"] || 5, 10);
+                        const q2Score = parseInt(row["第二題配分"] || 5, 10);
 
-                        const letterToIdx = (letter) => {
-                            if (!letter) return 0;
-                            const char = String(letter).trim().toUpperCase();
-                            const code = char.charCodeAt(0) - 65;
-                            return (code >= 0 && code <= 3) ? code : 0;
-                        };
+                        const correctQ1Char = String(row["第一題正確選項(A/B/C/D)"] || "A").trim().toUpperCase();
+                        let photoQCorrect = 0;
+                        if (correctQ1Char === "B") photoQCorrect = 1;
+                        else if (correctQ1Char === "C") photoQCorrect = 2;
+                        else if (correctQ1Char === "D") photoQCorrect = 3;
 
-                        const photoA = row["第一題照片A"] || defaultPhotoOptions[0];
-                        const photoB = row["第一題照片B"] || defaultPhotoOptions[1];
-                        const photoC = row["第一題照片C"] || defaultPhotoOptions[2];
-                        const photoD = row["第一題照片D"] || defaultPhotoOptions[3];
+                        const photoQOptions = [
+                            row["第一題選項A圖片URL"] || defaultPhotoOptions[0],
+                            row["第一題選項B圖片URL"] || defaultPhotoOptions[1],
+                            row["第一題選項C圖片URL"] || defaultPhotoOptions[2],
+                            row["第一題選項D圖片URL"] || defaultPhotoOptions[3]
+                        ];
 
-                        const taskObject = {
-                            title: row["關卡標題"] || `關卡 #${idStr}`,
+                        const typeVal = (row["第二題類型(quiz/photo)"] || row["type"] || "quiz").trim().toLowerCase();
+                        const correctQ2Num = parseInt(row["第二題正確解答(1-4)"] || 1, 10) - 1;
+
+                        const taskObj = {
+                            title: row["關卡名稱"] || `${idStr}號任務`,
                             password: String(row["解鎖密碼"] || `${idStr}0`).trim(),
+                            passwordHint: String(row["密碼提示文字"] || row["密碼提示"] || '').trim(),
                             q1Score: q1Score,
                             q2Score: q2Score,
                             score: q1Score + q2Score,
-                            photoQPrompt: row["第一題提示語"] || "請選出現場對應照片：",
-                            photoQOptions: [photoA, photoB, photoC, photoD],
-                            photoQCorrect: letterToIdx(row["第一題正確照片字母(A/B/C/D)"]),
-                            type: (row["第二題類型(quiz/photo)"] || "").toLowerCase() === 'photo' ? 'photo' : 'quiz',
-                            description: row["第二題說明"] || "",
+                            photoQPrompt: row["第一題照片提示引導語"] || "請觀看下方照片選項，挑選出此檢查點正確的照片：",
+                            photoQOptions: photoQOptions,
+                            photoQCorrect: photoQCorrect,
+                            type: typeVal === 'photo' ? 'photo' : 'quiz',
+                            description: row["第二題說明"] || '',
                             options: [
                                 String(row["第二題選項A"] || "選項 A"),
                                 String(row["第二題選項B"] || "選項 B"),
                                 String(row["第二題選項C"] || "選項 C"),
                                 String(row["第二題選項D"] || "選項 D")
                             ],
-                            correctOption: letterToIdx(row["第二題正確選項字母(A/B/C/D)"])
+                            correctOption: Math.max(0, Math.min(3, correctQ2Num)),
+                            updatedAt: Date.now()
                         };
 
-                        updatePromises.push(setDoc(doc(tasksCollectionRef, idStr), taskObject, { merge: true }));
-                    });
+                        await setDoc(doc(tasksCollectionRef, idStr), taskObj, { merge: true });
+                    }
 
-                    Promise.all(updatePromises).then(() => {
-                        showToast(`成功匯入/更新 ${updatePromises.length} 個關卡題庫！`, "success");
-                        document.getElementById('excel-file-input').value = '';
-                    }).catch(err => {
-                        console.error("Batch Import Error:", err);
-                        showToast("匯入關卡失敗，請檢查格式", "error");
-                    });
+                    showToast(`成功匯入更新 ${rows.length} 關點位題庫！`, "success");
+                    document.getElementById('excel-file-input').value = '';
 
                 } catch (err) {
-                    console.error("Parse Excel Error:", err);
-                    showToast("解析 Excel 檔案失敗，請使用匯出的範例格式", "error");
+                    console.error("Excel Upload Error:", err);
+                    showToast("Excel 解析失敗，請確認格式正確", "error");
                 }
             };
             reader.readAsArrayBuffer(file);
         };
 
-        // Initialize on Load
+        // App Initialization
         window.addEventListener('DOMContentLoaded', () => {
             initAuthAndData();
         });
